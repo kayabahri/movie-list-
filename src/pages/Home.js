@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { fetchPopularMovies, fetchGenres, fetchTrendingMovie, fetchMoviesByGenre } from '../services/movieService';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';  // useNavigate eklendi
+import Card from '../components/PricingPlans/Card';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
@@ -13,8 +14,31 @@ const Home = ({ searchResults, filters }) => {
   const [trendingMovie, setTrendingMovie] = useState(null);
   const [recentMovies, setRecentMovies] = useState([]);
   const [actionMovies, setActionMovies] = useState([]);
-  const [horrorMovies, setHorrorMovies] = useState([]); 
-  const [animationMovies, setAnimationMovies] = useState([]);  
+  const [horrorMovies, setHorrorMovies] = useState([]);
+  const [animationMovies, setAnimationMovies] = useState([]);
+
+  const plans = [
+    {
+      title: 'Starter',
+      features: ['7 days', '720p Resolution', 'Limited Availability', 'Desktop Only', 'Limited Support'],
+      price: 'Free',
+      buttonLabel: 'REGISTER',
+    },
+    {
+      title: 'Premium',
+      features: ['1 Month', 'Full HD', 'Lifetime Availability', 'TV & Desktop', '24/7 Support'],
+      price: '$19.99',
+      buttonLabel: 'CHOOSE PLAN',
+    },
+    {
+      title: 'Cinematic',
+      features: ['2 Months', 'Ultra HD', 'Lifetime Availability', 'Any Device', '24/7 Support'],
+      price: '$39.99',
+      buttonLabel: 'CHOOSE PLAN',
+    },
+  ];
+
+  const navigate = useNavigate();  // useNavigate hook'u tanımlandı
 
   useEffect(() => {
     if (searchResults && searchResults.length > 0) {
@@ -23,7 +47,7 @@ const Home = ({ searchResults, filters }) => {
       const getMovies = async () => {
         const response = await fetchPopularMovies();
         setMovies(response.results);
-        setRecentMovies(response.results.slice(0, 6)); // Son 6 filmi al
+        setRecentMovies(response.results.slice(0, 6));
       };
       getMovies();
     }
@@ -65,19 +89,19 @@ const Home = ({ searchResults, filters }) => {
     slidesToScroll: 1,
     responsive: [
       {
-        breakpoint: 1024, // Large screens
+        breakpoint: 1024,
         settings: {
           slidesToShow: 4,
         }
       },
       {
-        breakpoint: 768, // Tablet
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
         }
       },
       {
-        breakpoint: 480, // Mobile 
+        breakpoint: 480,
         settings: {
           slidesToShow: 1,
         }
@@ -208,16 +232,16 @@ const Home = ({ searchResults, filters }) => {
 
         {/* TO CATALOG Button */}
         <div className="flex justify-center mt-8">
-          <Link 
-            to="/catalog" 
-            className="bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-500 transition-all"
+          <button 
+            onClick={() => navigate('/catalog')}  // Butona tıklanınca yönlendirme yapılır
+            className="bg-pink-600 text-white px-6 py-3 rounded-lg transition-all duration-500 hover:brightness-125 hover:shadow-hover-glow"
           >
             TO CATALOG
-          </Link>
+          </button>
         </div>
       </div>
 
-      {/*Recommended For You */}
+      {/* New Section: Recommended For You */}
       <div className="container mx-auto px-side-padding py-8 relative z-10">
         <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">Recommended For You</h2>
         <Slider {...settings}>
@@ -271,6 +295,22 @@ const Home = ({ searchResults, filters }) => {
             </div>
           ))}
         </Slider>
+      </div>
+
+      {/* Select Your Plan Section */}
+      <div className="container mx-auto px-side-padding py-12 relative z-10">
+        <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">Select Your Plan</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
+          {plans.map((plan, index) => (
+            <Card 
+              key={index}
+              title={plan.title} 
+              features={plan.features} 
+              price={plan.price} 
+              buttonLabel={plan.buttonLabel} 
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

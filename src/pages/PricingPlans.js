@@ -1,5 +1,6 @@
+// src/pages/PricingPlans.js
 import React from 'react';
-import { Link } from 'react-router-dom';
+import ReusableHeader from '../components/ReusableHeader';
 import cinemaImage from '../assets/cinema.jpg';
 import Card from '../components/PricingPlans/Card';
 import Feature from '../components/PricingPlans/Feature';
@@ -61,34 +62,12 @@ const PricingPlans = () => {
   ];
 
   return (
-    <div className="bg-gray-900 text-white font-ubuntu max-w-custom-max mx-auto mt-[-64px]"> {/* Negatif margin-top eklendi */}
-      {/* Üst Bölüm */}
-      <div
-        className="relative h-48 flex items-center justify-between bg-cover bg-center px-side-padding"
-        style={{
-          backgroundImage: `url(${cinemaImage})`,
-          boxShadow: 'inset 0 0 0 2000px rgba(0, 0, 0, 0.8)',
-        }}
-      >
-        {/* Başlık */}
-        <h1 className="text-custom-title font-normal">
-          Pricing Plans
-        </h1>
-
-        {/* Yönlendirme (Breadcrumb) */}
-        <div className="text-white text-sm">
-          <nav className="flex items-center space-x-2">
-            <Link to="/" className="hover:text-pink-500 transition-colors duration-300">
-              Home
-            </Link>
-            <span>{'>'}</span>
-            <span className="text-gray-400">Pricing Plans</span>
-          </nav>
-        </div>
-
-        {/* Alt Çizgi */}
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-pink"></div>
-      </div>
+    <div className="bg-gray-900 text-white font-ubuntu max-w-custom-max mx-auto mt-[-64px]">
+      <ReusableHeader
+        title="Pricing Plans"
+        breadcrumb="Pricing Plans"
+        backgroundImage={cinemaImage}
+      />
 
       {/* Kartlar Bölümü */}
       <div className="px-side-padding py-16">

@@ -15,7 +15,7 @@ const Card = ({ title, features, price, buttonLabel }) => {
           </li>
         ))}
       </ul>
-      <button className="bg-gradient-pink text-white px-6 py-3 rounded-md shadow-custom-pink transition-transform transform hover:scale-105 w-full">
+      <button className="bg-gradient-pink text-white px-6 py-3 rounded-md shadow-custom-pink transition-all duration-500 hover:brightness-125 hover:shadow-hover-glow w-full">
         {buttonLabel}
       </button>
     </div>

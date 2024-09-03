@@ -5,6 +5,7 @@ import MovieDetails from './pages/MovieDetails';
 import GenreMovies from './pages/genre/GenreMovies';
 import ActorMovies from './pages/actor/ActorMovies';
 import PricingPlans from './pages/PricingPlans';
+import Catalog from './pages/Catalog';  // Catalog sayfasını içe aktarın
 import Header from './components/Header';
 import Footer from './components/Footer'; 
 import { searchMovies } from './services/movieService';
@@ -37,6 +38,7 @@ function App() {
           <Route path="/movies/genre/:genreId" element={<GenreMovies />} />
           <Route path="/movies/actor/:actorId" element={<ActorMovies />} />
           <Route path="/pricing" element={<PricingPlans />} />
+          <Route path="/catalog" element={<Catalog />} /> {/* Catalog sayfası için route tanımlandı */}
         </Routes>
       </main>
       <Footer />

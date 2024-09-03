@@ -62,9 +62,38 @@ module.exports = {
       },
       boxShadow: {
         'custom-pink': '0 0 16px 0 rgba(255, 88, 96, 0.3)',
+        'hover-glow': '0 0 10px rgba(255, 88, 96, 0.5)',
       },
       opacity: {
         '5': '0.05',
+      },
+      brightness: {
+        125: '1.25',
+      },
+      // Aarrows
+      arrow: {
+        '&-next': {
+          '&::before': {
+            content: '""',
+            display: 'block',
+            borderLeft: '2px solid white',
+            borderBottom: '2px solid white',
+            width: '10px',
+            height: '10px',
+            transform: 'rotate(-45deg)',
+          },
+        },
+        '&-prev': {
+          '&::before': {
+            content: '""',
+            display: 'block',
+            borderRight: '2px solid white',
+            borderTop: '2px solid white',
+            width: '10px',
+            height: '10px',
+            transform: 'rotate(-45deg)',
+          },
+        },
       },
     },
   },
