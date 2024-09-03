@@ -125,10 +125,30 @@ export const fetchTrendingMovie = async () => {
       },
     });
 
-    const trendingMovie = response.data.results[0]; // İlk trend olan filmi alıyoruz
+    const trendingMovie = response.data.results[0]; // İlk trend olan filmi alıyor
     return trendingMovie;
   } catch (error) {
     console.error('Error fetching trending movie:', error);
     return null;
+  }
+};
+
+export const fetchMoviesByGenre = async (genreId, limit = 10) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/discover/movie`, {
+      params: {
+        api_key: API_KEY,
+        with_genres: genreId,
+        sort_by: 'popularity.desc',
+        page: 1,
+      },
+    });
+
+    return {
+      results: response.data.results.slice(0, limit), // İlk limit kadar film çekiliyor
+    };
+  } catch (error) {
+    console.error('Error fetching movies by genre:', error);
+    return { results: [] };
   }
 };
