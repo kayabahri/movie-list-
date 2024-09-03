@@ -34,7 +34,7 @@ module.exports = {
       spacing: {
         'title-offset': '7rem',
         'breadcrumb-offset': '10rem',
-        'side-padding': '11%',
+        'side-padding': '5%',
       },
       maxWidth: {
         'custom-max': '100%',

@@ -30,7 +30,7 @@ function App() {
   return (
     <div className="App bg-gray-900 min-h-screen text-white">
       <Header onSearch={handleSearch} onFilterChange={handleFilterChange} />
-      <main className="py-6 mt-10">  {/* Header yüksekliğine göre margin-top eklendi */}
+      <main className="py-6 mt-10">
         <Routes>
           <Route path="/" element={<Home searchResults={searchResults} filters={filters} />} />
           <Route path="/movie/:id" element={<MovieDetails />} />
