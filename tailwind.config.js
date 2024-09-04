@@ -34,28 +34,28 @@ module.exports = {
       spacing: {
         'title-offset': '7rem',
         'breadcrumb-offset': '10rem',
-        'side-padding': '7%',
+        'side-padding': '10%',
       },
       maxWidth: {
         'custom-max': '100%',
       },
       transitionProperty: {
-        'colors': 'color, background-color, border-color, text-decoration-color, fill, stroke',
-        'width': 'width',
-        'spacing': 'margin, padding',
+        colors: 'color, background-color, border-color, text-decoration-color, fill, stroke',
+        width: 'width',
+        spacing: 'margin, padding',
       },
       transitionTimingFunction: {
         'ease-in-out': 'ease-in-out',
         'in-out-expo': 'cubic-bezier(0.77, 0, 0.175, 1)',
       },
       transitionDuration: {
-        '500': '500ms',
-        '400': '400ms',
-        '600': '600ms',
+        500: '500ms',
+        400: '400ms',
+        600: '600ms',
       },
       transitionDelay: {
-        '200': '200ms',
-        '400': '400ms',
+        200: '200ms',
+        400: '400ms',
       },
       backgroundImage: {
         'gradient-pink': 'linear-gradient(90deg, #ff5860 0%, #ff55a5 100%)',
@@ -65,35 +65,10 @@ module.exports = {
         'hover-glow': '0 0 10px rgba(255, 88, 96, 0.5)',
       },
       opacity: {
-        '5': '0.05',
+        5: '0.05',
       },
       brightness: {
         125: '1.25',
-      },
-      // Aarrows
-      arrow: {
-        '&-next': {
-          '&::before': {
-            content: '""',
-            display: 'block',
-            borderLeft: '2px solid white',
-            borderBottom: '2px solid white',
-            width: '10px',
-            height: '10px',
-            transform: 'rotate(-45deg)',
-          },
-        },
-        '&-prev': {
-          '&::before': {
-            content: '""',
-            display: 'block',
-            borderRight: '2px solid white',
-            borderTop: '2px solid white',
-            width: '10px',
-            height: '10px',
-            transform: 'rotate(-45deg)',
-          },
-        },
       },
     },
   },

@@ -9,26 +9,6 @@ const Header = ({ onSearch, onFilterChange }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const dropdownRef = useRef(null);
 
-  const catalogItems = [
-    { label: 'Films', href: '/films' },
-    { label: 'TV Series', href: '/tv-series' },
-    { label: 'Anime', href: '/anime' },
-    { label: 'Cartoons', href: '/cartoons' },
-    { label: 'Catalog Grid', href: '/catalog-grid' },
-    { label: 'Catalog List', href: '/catalog-list' },
-    { label: 'Details Film', href: '/details-film' },
-    { label: 'Details TV Series', href: '/details-tv-series' },
-  ];
-
-  const pagesItems = [
-    { label: 'About us', href: '/about-us' },
-    { label: 'Help center', href: '/help-center' },
-    { label: 'Profile', href: '/profile' },
-    { label: 'Actor', href: '/actor' },
-    { label: 'Contacts', href: '/contacts' },
-    { label: 'Privacy policy', href: '/privacy-policy' },
-  ];
-
   const handleDropdownToggle = (dropdownName) => {
     setActiveDropdown((prev) => (prev === dropdownName ? null : dropdownName));
   };
@@ -46,8 +26,8 @@ const Header = ({ onSearch, onFilterChange }) => {
   }, [dropdownRef]);
 
   return (
-    <header className="bg-gray-900 text-white py-2 shadow-md fixed top-0 left-0 w-full z-50">
-      <div className="container mx-auto flex justify-between items-center px-side-padding">
+    <header className="bg-gray-900 text-white py-2 shadow-md fixed top-0 left-0 w-full z-50 px-side-padding">
+      <div className="container mx-auto flex justify-between items-center">
         {/* Sol Kısım: Logo */}
         <div className="flex items-center space-x-4">
           <div className="text-3xl font-bold">
@@ -63,26 +43,6 @@ const Header = ({ onSearch, onFilterChange }) => {
               toggle={() => handleDropdownToggle('catalog')}
               color="#ff55a5"
             />
-            <div
-              className={`absolute mt-2 w-64 bg-gray-900 rounded-md shadow-lg z-10 origin-top-left transform transition-all duration-500 ease-in-out ${
-                activeDropdown === 'catalog' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0'
-              }`}
-            >
-              <div className="h-0.5 bg-gradient-pink rounded-t-md"></div>
-              <div className="py-4 px-6">
-                <div className="flex flex-col space-y-2">
-                  {catalogItems.map((item, index) => (
-                    <a
-                      key={index}
-                      href={item.href}
-                      className="text-white hover:text-pink-500 transition-colors duration-300 whitespace-nowrap overflow-hidden"
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -91,34 +51,6 @@ const Header = ({ onSearch, onFilterChange }) => {
           <Link to="/" className="hover:text-pink-500 transition-colors duration-300">Home</Link>
           <Link to="/catalog" className="hover:text-pink-500 transition-colors duration-300">Catalog</Link>
           <Link to="/pricing" className="hover:text-pink-500 transition-colors duration-300">Pricing Plans</Link>
-          <div className="relative">
-            <button
-              className="hover:text-pink-500 transition-colors duration-300"
-              onClick={() => handleDropdownToggle('pages')}
-            >
-              Pages
-            </button>
-            <div
-              className={`absolute mt-2 w-64 bg-gray-900 rounded-md shadow-lg z-10 origin-top-left transform transition-all duration-500 ease-in-out ${
-                activeDropdown === 'pages' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0'
-              }`}
-            >
-              <div className="h-0.5 bg-gradient-pink rounded-t-md"></div>
-              <div className="py-4 px-6">
-                <div className="flex flex-col space-y-2">
-                  {pagesItems.map((item, index) => (
-                    <a
-                      key={index}
-                      href={item.href}
-                      className="text-white hover:text-pink-500 transition-colors duration-300 whitespace-nowrap overflow-hidden"
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
           {/* Filters Dropdown */}
           <div className="relative">
             <button
@@ -128,16 +60,6 @@ const Header = ({ onSearch, onFilterChange }) => {
               <FaFilter />
               <span>Filters</span>
             </button>
-            <div
-              className={`absolute mt-2 w-64 bg-gray-900 rounded-md shadow-lg z-10 origin-top-left transform transition-all duration-500 ease-in-out ${
-                activeDropdown === 'filters' ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0'
-              }`}
-            >
-              <div className="h-0.5 bg-gradient-pink rounded-t-md"></div>
-              <div className="py-4 px-6">
-                <Filters onFilterChange={onFilterChange} />
-              </div>
-            </div>
           </div>
         </nav>
 
