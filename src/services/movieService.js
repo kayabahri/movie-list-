@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_KEY = '87bd15aa50ee417514934166f5912288';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-export const fetchPopularMovies = async (page = 1) => {
+export const fetchPopularMovies = async (page = 1, moviesPerPage = 12) => {
   try {
     const response = await axios.get(`${BASE_URL}/movie/popular`, {
       params: {
@@ -12,7 +12,7 @@ export const fetchPopularMovies = async (page = 1) => {
       },
     });
     return {
-      results: response.data.results,
+      results: response.data.results.slice(0, moviesPerPage),
       total_results: response.data.total_results,
     };
   } catch (error) {
@@ -31,7 +31,7 @@ export const searchMovies = async (query, page = 1) => {
       },
     });
 
-    const filteredResults = response.data.results.filter(movie => 
+    const filteredResults = response.data.results.filter((movie) =>
       movie.title.toLowerCase().includes(query.toLowerCase())
     );
 
