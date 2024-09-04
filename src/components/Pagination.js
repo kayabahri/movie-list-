@@ -7,11 +7,9 @@ const Pagination = ({ moviesPerPage, totalMovies, paginate, currentPage }) => {
   let startPage, endPage;
 
   if (totalPages <= 10) {
-    // Sayfa sayısı 10 veya daha azsa, tüm sayfaları göster
     startPage = 1;
     endPage = totalPages;
   } else {
-    // Sayfa sayısı 10'dan fazlaysa, geçerli sayfa ve çevresindeki sayfaları göster
     if (currentPage <= 6) {
       startPage = 1;
       endPage = 10;
@@ -29,23 +27,25 @@ const Pagination = ({ moviesPerPage, totalMovies, paginate, currentPage }) => {
   }
 
   return (
-    <nav className="flex justify-center mt-4">
+    <nav className="flex justify-center mt-8 px-side-padding">
       <ul className="flex space-x-2">
         {currentPage > 1 && (
           <li>
             <button
               onClick={() => paginate(currentPage - 1)}
-              className="px-3 py-1 bg-gray-200 rounded-lg hover:bg-blue-500 hover:text-white"
+              className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-pink-500 transition-colors duration-300"
             >
               &laquo; Prev
             </button>
           </li>
         )}
         {pageNumbers.map((number) => (
-          <li key={number} className={currentPage === number ? 'text-blue-500' : ''}>
+          <li key={number}>
             <button
               onClick={() => paginate(number)}
-              className="px-3 py-1 bg-gray-200 rounded-lg hover:bg-blue-500 hover:text-white"
+              className={`px-4 py-2 rounded-lg transition-colors duration-300 ${
+                currentPage === number ? 'bg-pink-500 text-white' : 'bg-gray-800 text-gray-400 hover:bg-pink-500 hover:text-white'
+              }`}
             >
               {number}
             </button>
@@ -55,7 +55,7 @@ const Pagination = ({ moviesPerPage, totalMovies, paginate, currentPage }) => {
           <li>
             <button
               onClick={() => paginate(currentPage + 1)}
-              className="px-3 py-1 bg-gray-200 rounded-lg hover:bg-blue-500 hover:text-white"
+              className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-pink-500 transition-colors duration-300"
             >
               Next &raquo;
             </button>

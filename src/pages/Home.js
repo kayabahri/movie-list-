@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import { fetchPopularMovies, fetchGenres, fetchTrendingMovie, fetchMoviesByGenre } from '../services/movieService';
-import { Link, useNavigate } from 'react-router-dom';  // useNavigate eklendi
+import { Link, useNavigate } from 'react-router-dom';
 import Card from '../components/PricingPlans/Card';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -38,7 +38,7 @@ const Home = ({ searchResults, filters }) => {
     },
   ];
 
-  const navigate = useNavigate();  // useNavigate hook'u tanımlandı
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (searchResults && searchResults.length > 0) {
@@ -233,7 +233,7 @@ const Home = ({ searchResults, filters }) => {
         {/* TO CATALOG Button */}
         <div className="flex justify-center mt-8">
           <button 
-            onClick={() => navigate('/catalog')}  // Butona tıklanınca yönlendirme yapılır
+            onClick={() => navigate('/catalog')}
             className="bg-pink-600 text-white px-6 py-3 rounded-lg transition-all duration-500 hover:brightness-125 hover:shadow-hover-glow"
           >
             TO CATALOG

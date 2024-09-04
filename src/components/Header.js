@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { FaFilter } from 'react-icons/fa';
 import Hamburger from 'hamburger-react';
 import SearchBar from './SearchBar';
-import Filters from './Filters';
 
 const Header = ({ onSearch, onFilterChange }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -26,8 +25,8 @@ const Header = ({ onSearch, onFilterChange }) => {
   }, [dropdownRef]);
 
   return (
-    <header className="bg-gray-900 text-white py-2 shadow-md fixed top-0 left-0 w-full z-50 px-side-padding">
-      <div className="container mx-auto flex justify-between items-center">
+    <header className="bg-gray-900 text-white py-2 shadow-md fixed top-0 left-0 w-full z-50">
+      <div className="container mx-auto px-side-padding flex justify-between items-center">
         {/* Sol Kısım: Logo */}
         <div className="flex items-center space-x-4">
           <div className="text-3xl font-bold">

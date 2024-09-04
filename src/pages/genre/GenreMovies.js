@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchFilteredMovies } from '../../services/movieService';
-import MovieCard from '../../components/MovieCard';
-import Skeleton from 'react-loading-skeleton';
+import Skeleton from '../../components/Skeleton';
+import ReactLoadingSkeleton from 'react-loading-skeleton';
 
 const GenreMovies = () => {
   const { genreId } = useParams();
@@ -26,16 +26,16 @@ const GenreMovies = () => {
         {isLoading ? (
           [...Array(8)].map((_, index) => (
             <div key={index} className="block bg-white rounded-lg shadow-lg overflow-hidden">
-              <Skeleton height={288} />
+              <ReactLoadingSkeleton height={288} />
               <div className="p-4">
-                <Skeleton width="70%" height={20} />
-                <Skeleton width="50%" height={20} />
+                <ReactLoadingSkeleton width="70%" height={20} />
+                <ReactLoadingSkeleton width="50%" height={20} />
               </div>
             </div>
           ))
         ) : (
           movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+            <Skeleton key={movie.id} movie={movie} />
           ))
         )}
       </div>

@@ -63,14 +63,15 @@ const PricingPlans = () => {
 
   return (
     <div className="bg-gray-900 text-white font-ubuntu max-w-custom-max mx-auto mt-[-64px]">
+      {/* ReusableHeader bileşeni padding olmadan */}
       <ReusableHeader
         title="Pricing Plans"
         breadcrumb="Pricing Plans"
         backgroundImage={cinemaImage}
       />
 
-      {/* Kartlar Bölümü */}
-      <div className="px-side-padding py-16">
+      {/* Kartlar ve diğer bölümler padding ile */}
+      <div className="container mx-auto px-side-padding py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {plans.map((plan, index) => (
             <Card
@@ -84,8 +85,7 @@ const PricingPlans = () => {
         </div>
       </div>
 
-      {/* Our Features Bölümü */}
-      <div className="px-side-padding py-16">
+      <div className="container mx-auto px-side-padding py-16">
         <h2 className="text-custom-title font-normal mb-6 text-left">
           Our Features
         </h2>
