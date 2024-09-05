@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import MovieCard from '../components/MovieCard';
 import Pagination from '../components/Pagination';
 import Filter from '../components/Filters';
 import ReusableHeader from '../components/ReusableHeader';
-import { fetchPopularMovies, fetchMoviesByGenre } from '../services/movieService';
+import { fetchPopularMovies, searchMovies, fetchMoviesByGenre } from '../services/movieService';
 import cinemaImage from '../assets/cinema.jpg';
 import RecommendedMovies from '../components/RecommendedMovies';
 
@@ -11,14 +12,23 @@ const Catalog = () => {
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalMovies, setTotalMovies] = useState(0);
+  const location = useLocation();
 
   const [actionMovies, setActionMovies] = useState([]);
   const [horrorMovies, setHorrorMovies] = useState([]);
   const [animationMovies, setAnimationMovies] = useState([]);
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get('search');
+
     const loadMovies = async () => {
-      const data = await fetchPopularMovies(currentPage, 12); 
+      let data;
+      if (searchQuery) {
+        data = await searchMovies(searchQuery, currentPage);
+      } else {
+        data = await fetchPopularMovies(currentPage, 12); 
+      }
       setMovies(data.results);
       setTotalMovies(data.total_results);
     };
@@ -35,7 +45,7 @@ const Catalog = () => {
 
     loadMovies();
     loadGenreMovies();
-  }, [currentPage]);
+  }, [location.search, currentPage]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);

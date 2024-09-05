@@ -3,10 +3,10 @@ import React from 'react';
 const Dropdown = ({ items, isOpen }) => {
   return (
     <div
-      className={`absolute mt-2 w-64 bg-gray-900 rounded-md shadow-lg z-10 origin-top-left transform transition-all duration-500 ease-in-out ${
-        isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0'
+      className={`absolute mt-2 w-64 bg-gray-900 rounded-md shadow-lg z-10 origin-top transition-all duration-500 ease-in-out transform ${
+        isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
       }`}
-      style={{ top: '100%' }} // Header'ın hemen altından hizalanacak
+      style={{ top: '100%' }}
     >
       <div className="h-0.5 bg-gradient-pink rounded-t-md"></div>
       <div className="py-4 px-6">

@@ -1,21 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaFilter } from 'react-icons/fa';
 import Hamburger from 'hamburger-react';
 import SearchBar from './SearchBar';
+import Dropdown from './Dropdown';  // Dropdown bileşenini içe aktarın
 
-const Header = ({ onSearch, onFilterChange }) => {
-  const [activeDropdown, setActiveDropdown] = useState(null);
+const Header = ({ onSearch }) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const handleDropdownToggle = (dropdownName) => {
-    setActiveDropdown((prev) => (prev === dropdownName ? null : dropdownName));
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen((prev) => !prev);
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setActiveDropdown(null);
+        setIsDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -23,6 +23,17 @@ const Header = ({ onSearch, onFilterChange }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [dropdownRef]);
+
+  const menuItems = [
+    { label: 'Films', href: '/' },
+    { label: 'TV Series', href: '/' },
+    { label: 'Anime', href: '/' },
+    { label: 'Cartoons', href: '/' },
+    { label: 'Catalog Grid', href: '/' },
+    { label: 'Catalog List', href: '/' },
+    { label: 'Details Film', href: '/' },
+    { label: 'Details TV Series', href: '/' },
+  ];
 
   return (
     <header className="bg-gray-900 text-white py-2 shadow-md fixed top-0 left-0 w-full z-50">
@@ -38,10 +49,13 @@ const Header = ({ onSearch, onFilterChange }) => {
           {/* Hamburger Menüsü */}
           <div className="relative" ref={dropdownRef}>
             <Hamburger
-              toggled={activeDropdown === 'catalog'}
-              toggle={() => handleDropdownToggle('catalog')}
+              toggled={isDropdownOpen}
+              toggle={handleDropdownToggle}
               color="#ff55a5"
             />
+            {isDropdownOpen && (
+              <Dropdown items={menuItems} isOpen={isDropdownOpen} />
+            )}
           </div>
         </div>
 
@@ -50,16 +64,6 @@ const Header = ({ onSearch, onFilterChange }) => {
           <Link to="/" className="hover:text-pink-500 transition-colors duration-300">Home</Link>
           <Link to="/catalog" className="hover:text-pink-500 transition-colors duration-300">Catalog</Link>
           <Link to="/pricing" className="hover:text-pink-500 transition-colors duration-300">Pricing Plans</Link>
-          {/* Filters Dropdown */}
-          <div className="relative">
-            <button
-              className="hover:text-pink-500 transition-colors duration-300 flex items-center space-x-1"
-              onClick={() => handleDropdownToggle('filters')}
-            >
-              <FaFilter />
-              <span>Filters</span>
-            </button>
-          </div>
         </nav>
 
         {/* Sağ Kısım: Arama Çubuğu ve Diğer Butonlar */}

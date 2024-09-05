@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = () => {
   const [query, setQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (onSearch && query) {
-      onSearch(query);
+    if (query) {
+      navigate(`/catalog?search=${encodeURIComponent(query)}`);
     }
   };
 

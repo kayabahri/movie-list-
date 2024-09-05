@@ -10,7 +10,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 const baseURL = 'https://image.tmdb.org/t/p/w500';
 
-const Home = ({ searchResults }) => {
+const Home = () => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState({});
   const [trendingMovie, setTrendingMovie] = useState(null);
@@ -43,16 +43,11 @@ const Home = ({ searchResults }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (searchResults && searchResults.length > 0) {
-      setMovies(searchResults);
-    } else {
-      const getMovies = async () => {
-        const response = await fetchPopularMovies();
-        setMovies(response.results);
-        setRecentMovies(response.results.slice(0, 6));
-      };
-      getMovies();
-    }
+    const getMovies = async () => {
+      const response = await fetchPopularMovies();
+      setMovies(response.results);
+      setRecentMovies(response.results.slice(0, 6));
+    };
 
     const loadGenres = async () => {
       const genresList = await fetchGenres();
@@ -78,10 +73,11 @@ const Home = ({ searchResults }) => {
       setAnimationMovies(animationResponse?.results || []);
     };
 
+    getMovies();
     loadGenres();
     loadTrendingMovie();
     loadGenreMovies();
-  }, [searchResults]);
+  }, []);
 
   const settings = {
     dots: false,
