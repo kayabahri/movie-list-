@@ -1,4 +1,3 @@
-// src/pages/PricingPlans.js
 import React from 'react';
 import ReusableHeader from '../components/ReusableHeader';
 import cinemaImage from '../assets/cinema.jpg';

@@ -4,15 +4,27 @@ import { Link } from 'react-router-dom';
 const baseURL = 'https://image.tmdb.org/t/p/w500';
 
 const MovieCard = ({ movie, genres }) => {
+  if (!movie || !movie.id) {
+    console.error("Movie data is not defined or is missing required fields:", movie);
+    return null;
+  }
+
   const getPrimaryGenre = (genreIds) => {
     if (!genreIds || genreIds.length === 0) return "Unknown";
-    return genres[genreIds[0]] || "Unknown";
+
+    const primaryGenreId = genreIds[0];
+
+    if (!genres || !genres[primaryGenreId]) {
+      return "Unknown";
+    }
+
+    return genres[primaryGenreId];
   };
 
   return (
     <div className="px-2">
       <Link to={`/movie/${movie.id}`} className="block">
-        <div className="relative rounded-lg overflow-hidden group">
+        <div className="relative rounded-lg overflow-hidden group max-w-[80%] mx-auto">
           <div className="relative overflow-hidden rounded-lg">
             <img 
               src={`${baseURL}${movie.poster_path}`} 
@@ -31,7 +43,7 @@ const MovieCard = ({ movie, genres }) => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M14.752 11.168l-4.88-2.81A1 1 0 008 9.117v5.766a1 1 0 001.872.615l4.88-2.81a 1 1 0 000-1.72z"
+                  d="M14.752 11.168l-4.88-2.81A1 1 0 008 9.117v5.766a 1 1 0 001.872.615l4.88-2.81a 1 1 0 000-1.72z"
                 />
               </svg>
             </div>

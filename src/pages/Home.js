@@ -196,7 +196,6 @@ const Home = ({ searchResults }) => {
         </div>
       </div>
 
-      {/* New Section: Recommended For You */}
       <div className="container mx-auto px-side-padding py-8 relative z-10">
         <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">Recommended For You</h2>
         <Slider {...settings}>
@@ -205,8 +204,6 @@ const Home = ({ searchResults }) => {
           ))}
         </Slider>
       </div>
-
-      {/* Select Your Plan Section */}
       <div className="container mx-auto px-side-padding py-12 relative z-10">
         <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">Select Your Plan</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
