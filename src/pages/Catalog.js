@@ -3,23 +3,43 @@ import MovieCard from '../components/MovieCard';
 import Pagination from '../components/Pagination';
 import Filter from '../components/Filters';
 import ReusableHeader from '../components/ReusableHeader';
-import { fetchPopularMovies } from '../services/movieService';
+import { fetchPopularMovies, fetchMoviesByGenre } from '../services/movieService';
 import cinemaImage from '../assets/cinema.jpg';
+import RecommendedMovies from '../components/RecommendedMovies';
 
 const Catalog = () => {
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalMovies, setTotalMovies] = useState(0);
+
+  const [actionMovies, setActionMovies] = useState([]);
+  const [horrorMovies, setHorrorMovies] = useState([]);
+  const [animationMovies, setAnimationMovies] = useState([]);
 
   useEffect(() => {
     const loadMovies = async () => {
-      const data = await fetchPopularMovies(currentPage);
+      const data = await fetchPopularMovies(currentPage, 12); 
       setMovies(data.results);
-      setTotalPages(Math.ceil(data.total_results / 12)); // 12 film gösterilecek şekilde ayarlandı
+      setTotalMovies(data.total_results);
+    };
+
+    const loadGenreMovies = async () => {
+      const actionResponse = await fetchMoviesByGenre(28, 10); 
+      const horrorResponse = await fetchMoviesByGenre(27, 10); 
+      const animationResponse = await fetchMoviesByGenre(16, 5); 
+
+      setActionMovies(actionResponse?.results || []);
+      setHorrorMovies(horrorResponse?.results || []);
+      setAnimationMovies(animationResponse?.results || []);
     };
 
     loadMovies();
+    loadGenreMovies();
   }, [currentPage]);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="bg-gray-900 text-white font-ubuntu max-w-custom-max mx-auto">
@@ -32,20 +52,27 @@ const Catalog = () => {
         <div className="mb-8">
           <Filter />
         </div>
-        {/* Kartlar arasındaki boşluğu kontrol etmek için sadece gap ayarını bıraktım */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-2 lg:gap-2">
           {movies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
         <div className="mt-12">
           <Pagination
+            moviesPerPage={12} 
+            totalMovies={totalMovies}
             currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
+            onPageChange={handlePageChange}
           />
         </div>
       </div>
+
+      <RecommendedMovies 
+        actionMovies={actionMovies} 
+        horrorMovies={horrorMovies} 
+        animationMovies={animationMovies} 
+        genres={{}} 
+      />
     </div>
   );
 };

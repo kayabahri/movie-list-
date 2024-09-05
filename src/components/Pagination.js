@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Pagination = ({ moviesPerPage, totalMovies, paginate, currentPage }) => {
+const Pagination = ({ moviesPerPage, totalMovies, onPageChange, currentPage }) => {
   const pageNumbers = [];
   const totalPages = Math.ceil(totalMovies / moviesPerPage);
 
@@ -32,7 +32,7 @@ const Pagination = ({ moviesPerPage, totalMovies, paginate, currentPage }) => {
         {currentPage > 1 && (
           <li>
             <button
-              onClick={() => paginate(currentPage - 1)}
+              onClick={() => onPageChange(currentPage - 1)}
               className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-pink-500 transition-colors duration-300"
             >
               &laquo; Prev
@@ -42,7 +42,7 @@ const Pagination = ({ moviesPerPage, totalMovies, paginate, currentPage }) => {
         {pageNumbers.map((number) => (
           <li key={number}>
             <button
-              onClick={() => paginate(number)}
+              onClick={() => onPageChange(number)}
               className={`px-4 py-2 rounded-lg transition-colors duration-300 ${
                 currentPage === number ? 'bg-pink-500 text-white' : 'bg-gray-800 text-gray-400 hover:bg-pink-500 hover:text-white'
               }`}
@@ -54,7 +54,7 @@ const Pagination = ({ moviesPerPage, totalMovies, paginate, currentPage }) => {
         {currentPage < totalPages && (
           <li>
             <button
-              onClick={() => paginate(currentPage + 1)}
+              onClick={() => onPageChange(currentPage + 1)}
               className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-pink-500 transition-colors duration-300"
             >
               Next &raquo;

@@ -17,7 +17,7 @@ const MovieCard = ({ movie, genres = {} }) => {
             <img 
               src={`${baseURL}${movie.poster_path}`} 
               alt={movie.title} 
-              className="w-[234.4px] h-[332.6px] object-cover rounded-lg transition-transform duration-300 group-hover:scale-110" 
+              className="w-full h-[332.6px] object-cover rounded-lg transition-transform duration-300 group-hover:scale-110" 
             />
             <div className="absolute inset-0 bg-gradient-pink opacity-0 group-hover:opacity-40 transition-opacity duration-300 flex justify-center items-center rounded-lg">
               <svg

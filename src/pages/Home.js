@@ -4,6 +4,7 @@ import { fetchPopularMovies, fetchGenres, fetchTrendingMovie, fetchMoviesByGenre
 import { Link, useNavigate } from 'react-router-dom';
 import Card from '../components/PricingPlans/Card';
 import MovieCard from '../components/MovieCard'; 
+import RecommendedMovies from '../components/RecommendedMovies'; 
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
@@ -110,11 +111,6 @@ const Home = ({ searchResults }) => {
     ]
   };
 
-  const getPrimaryGenre = (genreIds) => {
-    if (!genreIds || genreIds.length === 0) return "Unknown";
-    return genres[genreIds[0]] || "Unknown";
-  };
-
   return (
     <div className="relative">
       {trendingMovie && (
@@ -171,7 +167,7 @@ const Home = ({ searchResults }) => {
                 <div className="flex flex-col justify-between w-2/3 ml-4">
                   <div>
                     <h3 className="text-white text-base md:text-lg font-ubuntu font-medium mb-1">{movie.title}</h3>
-                    <p className="text-pink-500 text-sm md:text-base mb-2">{getPrimaryGenre(movie.genre_ids)}</p>
+                    <p className="text-pink-500 text-sm md:text-base mb-2">{genres[movie.genre_ids[0]] || 'Unknown'}</p>
                     <div className="flex items-center mb-2">
                       <span className="text-white text-sm md:text-base font-ubuntu align-middle mr-2">{movie.vote_average.toFixed(2)}</span>
                       <span className="text-gray-400 text-xs md:text-sm font-ubuntu align-middle border px-1 rounded">HD</span>
@@ -196,14 +192,14 @@ const Home = ({ searchResults }) => {
         </div>
       </div>
 
-      <div className="container mx-auto px-side-padding py-8 relative z-10">
-        <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">Recommended For You</h2>
-        <Slider {...settings}>
-          {(actionMovies || []).concat(horrorMovies || [], animationMovies || []).map((movie, index) => (
-            <MovieCard key={movie.id} movie={movie} genres={genres} />
-          ))}
-        </Slider>
-      </div>
+      <RecommendedMovies 
+        actionMovies={actionMovies} 
+        horrorMovies={horrorMovies} 
+        animationMovies={animationMovies} 
+        genres={genres} 
+        title="Recommended For You" 
+      />
+
       <div className="container mx-auto px-side-padding py-12 relative z-10">
         <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">Select Your Plan</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
