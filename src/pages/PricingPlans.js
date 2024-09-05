@@ -69,7 +69,7 @@ const PricingPlans = () => {
         backgroundImage={cinemaImage}
       />
 
-      {/* Kartlar ve diğer bölümler padding ile */}
+      {/* Kartlar ve diğer bölümler paddingli */}
       <div className="container mx-auto px-side-padding py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {plans.map((plan, index) => (
