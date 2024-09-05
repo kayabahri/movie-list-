@@ -3,33 +3,21 @@ import { Link } from 'react-router-dom';
 
 const baseURL = 'https://image.tmdb.org/t/p/w500';
 
-const MovieCard = ({ movie, genres }) => {
-  if (!movie || !movie.id) {
-    console.error("Movie data is not defined or is missing required fields:", movie);
-    return null;
-  }
-
+const MovieCard = ({ movie, genres = {} }) => {
   const getPrimaryGenre = (genreIds) => {
     if (!genreIds || genreIds.length === 0) return "Unknown";
-
-    const primaryGenreId = genreIds[0];
-
-    if (!genres || !genres[primaryGenreId]) {
-      return "Unknown";
-    }
-
-    return genres[primaryGenreId];
+    return genres[genreIds[0]] || "Unknown";
   };
 
   return (
-    <div className="px-2">
+    <div className="p-2">
       <Link to={`/movie/${movie.id}`} className="block">
-        <div className="relative rounded-lg overflow-hidden group max-w-[80%] mx-auto">
+        <div className="relative rounded-lg overflow-hidden group">
           <div className="relative overflow-hidden rounded-lg">
             <img 
               src={`${baseURL}${movie.poster_path}`} 
               alt={movie.title} 
-              className="w-full h-40 md:h-60 lg:h-80 object-cover rounded-lg transition-transform duration-300 group-hover:scale-110" 
+              className="w-[234.4px] h-[332.6px] object-cover rounded-lg transition-transform duration-300 group-hover:scale-110" 
             />
             <div className="absolute inset-0 bg-gradient-pink opacity-0 group-hover:opacity-40 transition-opacity duration-300 flex justify-center items-center rounded-lg">
               <svg
@@ -43,13 +31,13 @@ const MovieCard = ({ movie, genres }) => {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M14.752 11.168l-4.88-2.81A1 1 0 008 9.117v5.766a 1 1 0 001.872.615l4.88-2.81a 1 1 0 000-1.72z"
+                  d="M14.752 11.168l-4.88-2.81A1 1 0 008 9.117v5.766a1 1 0 001.872.615l4.88-2.81a 1 1 0 000-1.72z"
                 />
               </svg>
             </div>
           </div>
           <div className="p-4 bg-gray-900 bg-opacity-5">
-            <h3 className="text-white text-base md:text-lg font-ubuntu font-medium text-left">{movie.title}</h3>
+            <h3 className="text-white text-lg md:text-xl font-ubuntu font-medium text-left">{movie.title}</h3>
             <p className="text-pink-500 text-sm mb-2 text-left">
               {getPrimaryGenre(movie.genre_ids)}
             </p>

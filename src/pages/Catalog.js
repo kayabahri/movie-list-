@@ -32,8 +32,8 @@ const Catalog = () => {
         <div className="mb-8">
           <Filter />
         </div>
-        {/* 6x2 grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        {/* Kartlar arasındaki boşluğu kontrol etmek için sadece gap ayarını bıraktım */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {movies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
