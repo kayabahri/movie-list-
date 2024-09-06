@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import Slider from 'react-slick';
 import MovieCard from '../components/MovieCard';
 import Pagination from '../components/Pagination';
 import Filter from '../components/Filters';
 import ReusableHeader from '../components/ReusableHeader';
 import { fetchPopularMovies, searchMovies, fetchMoviesByGenre } from '../services/movieService';
 import cinemaImage from '../assets/cinema.jpg';
-import RecommendedMovies from '../components/RecommendedMovies';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 
 const Catalog = () => {
   const [movies, setMovies] = useState([]);
@@ -51,6 +53,34 @@ const Catalog = () => {
     setCurrentPage(pageNumber);
   };
 
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
   return (
     <div className="bg-gray-900 text-white font-ubuntu max-w-custom-max mx-auto">
       <ReusableHeader
@@ -69,7 +99,7 @@ const Catalog = () => {
         </div>
         <div className="mt-12">
           <Pagination
-            moviesPerPage={12} 
+            moviesPerPage={12}
             totalMovies={totalMovies}
             currentPage={currentPage}
             onPageChange={handlePageChange}
@@ -77,12 +107,17 @@ const Catalog = () => {
         </div>
       </div>
 
-      <RecommendedMovies 
-        actionMovies={actionMovies} 
-        horrorMovies={horrorMovies} 
-        animationMovies={animationMovies} 
-        genres={{}} 
-      />
+      {/* Now Watching Section with Slider */}
+      <div className="container mx-auto px-side-padding py-8">
+        <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">
+          Now Watching
+        </h2>
+        <Slider {...sliderSettings}>
+          {movies.slice(0, 5).map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+        </Slider>
+      </div>
     </div>
   );
 };
