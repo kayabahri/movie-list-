@@ -7,13 +7,13 @@ import MovieCard from '../components/MovieCard';
 import RecommendedMovies from '../components/RecommendedMovies'; 
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import filmback from '../assets/filmback.jpg'; // Film arka plan görselini içe aktarıyoruz
 
 const baseURL = 'https://image.tmdb.org/t/p/w500';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState({});
-  const [trendingMovie, setTrendingMovie] = useState(null);
   const [recentMovies, setRecentMovies] = useState([]);
   const [actionMovies, setActionMovies] = useState([]);
   const [horrorMovies, setHorrorMovies] = useState([]);
@@ -60,7 +60,7 @@ const Home = () => {
 
     const loadTrendingMovie = async () => {
       const trending = await fetchTrendingMovie();
-      setTrendingMovie(trending);
+      // Arkaplan olarak kullanmıyoruz, bu nedenle setTrendingMovie çağrısını kaldırabilirsiniz
     };
 
     const loadGenreMovies = async () => {
@@ -109,20 +109,19 @@ const Home = () => {
 
   return (
     <div className="relative">
-      {trendingMovie && (
-        <div
-          className="
-            absolute top-0 left-0 right-0 z-0 
-            before:absolute before:inset-0 before:bg-gradient-pink before:opacity-40
-            bg-cover bg-center bg-no-repeat
-          "
-          style={{
-            backgroundImage: `url(https://image.tmdb.org/t/p/original${trendingMovie.backdrop_path})`,
-            height: 'calc(100vh - 365px)',
-            filter: 'brightness(0.2) opacity(0.5)',
-          }}
-        ></div>
-      )}
+      <div
+        className="
+          absolute top-0 left-0 right-0 z-0 
+          before:absolute before:inset-0 before:bg-gradient-pink before:opacity-40
+          bg-cover bg-center bg-no-repeat
+        "
+        style={{
+          backgroundImage: `url(${filmback})`,
+          height: 'calc(100vh - 365px)',
+          filter: 'brightness(0.2) opacity(0.5)',
+        }}
+      ></div>
+
       <div className="container mx-auto px-side-padding py-8 relative z-10">
         <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">NEW ITEMS OF THIS SEASON</h2>
         <Slider {...settings}>
