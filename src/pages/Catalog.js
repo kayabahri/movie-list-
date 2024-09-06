@@ -5,7 +5,7 @@ import MovieCard from '../components/MovieCard';
 import Pagination from '../components/Pagination';
 import Filter from '../components/Filters';
 import ReusableHeader from '../components/ReusableHeader';
-import { fetchPopularMovies, searchMovies, fetchMoviesByGenre } from '../services/movieService';
+import { fetchPopularMovies, searchMovies, fetchMoviesByGenre, fetchFilteredMovies } from '../services/movieService';
 import cinemaImage from '../assets/cinema.jpg';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -14,6 +14,7 @@ const Catalog = () => {
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalMovies, setTotalMovies] = useState(0);
+  const [filters, setFilters] = useState({});
   const location = useLocation();
 
   const [actionMovies, setActionMovies] = useState([]);
@@ -28,8 +29,10 @@ const Catalog = () => {
       let data;
       if (searchQuery) {
         data = await searchMovies(searchQuery, currentPage);
+      } else if (Object.keys(filters).length > 0) {
+        data = await fetchFilteredMovies(filters, currentPage);
       } else {
-        data = await fetchPopularMovies(currentPage, 12); 
+        data = await fetchPopularMovies(currentPage, 12);
       }
       setMovies(data.results);
       setTotalMovies(data.total_results);
@@ -47,10 +50,15 @@ const Catalog = () => {
 
     loadMovies();
     loadGenreMovies();
-  }, [location.search, currentPage]);
+  }, [location.search, currentPage, filters]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+    setCurrentPage(1); // Filtreler değiştiğinde ilk sayfaya dön
   };
 
   const sliderSettings = {
@@ -90,7 +98,7 @@ const Catalog = () => {
       />
       <div className="container mx-auto px-side-padding py-16">
         <div className="mb-8">
-          <Filter />
+          <Filter onFilterChange={handleFilterChange} />
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-2 lg:gap-2">
           {movies.map((movie) => (
