@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
-import { fetchPopularMovies, fetchGenres, fetchTrendingMovie, fetchMoviesByGenre } from '../services/movieService';
+import { fetchPopularMovies, fetchGenres, fetchMoviesByGenre } from '../services/movieService';
 import { Link, useNavigate } from 'react-router-dom';
 import Card from '../components/PricingPlans/Card';
 import MovieCard from '../components/MovieCard'; 
 import RecommendedMovies from '../components/RecommendedMovies'; 
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import filmback from '../assets/filmback.jpg'; // Film arka plan görselini içe aktarıyoruz
+import filmback from '../assets/filmback.jpg';
 
 const baseURL = 'https://image.tmdb.org/t/p/w500';
 
@@ -58,15 +58,10 @@ const Home = () => {
       setGenres(genresMap);
     };
 
-    const loadTrendingMovie = async () => {
-      const trending = await fetchTrendingMovie();
-      // Arkaplan olarak kullanmıyoruz, bu nedenle setTrendingMovie çağrısını kaldırabilirsiniz
-    };
-
     const loadGenreMovies = async () => {
-      const actionResponse = await fetchMoviesByGenre(28, 10); // Aksiyon
-      const horrorResponse = await fetchMoviesByGenre(27, 10); // Korku
-      const animationResponse = await fetchMoviesByGenre(16, 5); // Animasyon
+      const actionResponse = await fetchMoviesByGenre(28, 10); 
+      const horrorResponse = await fetchMoviesByGenre(27, 10); 
+      const animationResponse = await fetchMoviesByGenre(16, 5); 
 
       setActionMovies(actionResponse?.results || []);
       setHorrorMovies(horrorResponse?.results || []);
@@ -75,7 +70,6 @@ const Home = () => {
 
     getMovies();
     loadGenres();
-    loadTrendingMovie();
     loadGenreMovies();
   }, []);
 
@@ -109,31 +103,33 @@ const Home = () => {
 
   return (
     <div className="relative">
+      {/* Arka plan, başlık ve slider */}
       <div
-        className="
-          absolute top-0 left-0 right-0 z-0 
-          before:absolute before:inset-0 before:bg-gradient-pink before:opacity-40
-          bg-cover bg-center bg-no-repeat
-        "
+        className="relative h-auto bg-cover bg-center"
         style={{
           backgroundImage: `url(${filmback})`,
-          height: 'calc(100vh - 365px)',
-          filter: 'brightness(0.2) opacity(0.5)',
+          boxShadow: 'inset 0 0 0 2000px rgba(0, 0, 0, 0.8)',
         }}
-      ></div>
+      >
+        <div className="container mx-auto px-side-padding py-5">
+        <h1 className="text-left text-4xl font-ubuntu text-white mb-0">
+  <span className="font-bold">NEW ITEMS</span> 
+  <span className="font-light"> OF THIS SEASON</span>
+</h1>
 
-      <div className="container mx-auto px-side-padding py-8 relative z-10">
-        <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">NEW ITEMS OF THIS SEASON</h2>
-        <Slider {...settings}>
-          {movies.map((movie, index) => (
-            <MovieCard key={movie.id} movie={movie} genres={genres} />
-          ))}
-        </Slider>
+
+        </div>
+        <div className="container mx-auto px-side-padding py-4">
+  <Slider {...settings}>
+    {movies.map((movie, index) => (
+      <MovieCard key={movie.id} movie={movie} genres={genres} />
+    ))}
+  </Slider>
+</div>
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-pink"></div>
       </div>
 
-      {/* Responsive Gradient Bar */}
-      <div className="h-0.5 w-full bg-gradient-pink mt-8 relative z-10 sm:h-0.5 md:h-0.5 lg:h-0.75"></div>
-      
+      {/* Recently Updated Bölümü */}
       <div className="container mx-auto px-side-padding py-8 relative z-10">
         <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">Recently Updated</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
