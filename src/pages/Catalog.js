@@ -16,11 +16,8 @@ const Catalog = () => {
   const [totalMovies, setTotalMovies] = useState(0);
   const [filters, setFilters] = useState({});
   const [genres, setGenres] = useState({});
+  const [nowWatchingMovies, setNowWatchingMovies] = useState([]); // Now Watching için ayrı state
   const location = useLocation();
-
-  const [actionMovies, setActionMovies] = useState([]);
-  const [horrorMovies, setHorrorMovies] = useState([]);
-  const [animationMovies, setAnimationMovies] = useState([]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -48,19 +45,14 @@ const Catalog = () => {
       setGenres(genresMap);
     };
 
-    const loadGenreMovies = async () => {
-      const actionResponse = await fetchMoviesByGenre(28, 10); 
-      const horrorResponse = await fetchMoviesByGenre(27, 10); 
-      const animationResponse = await fetchMoviesByGenre(16, 5); 
-
-      setActionMovies(actionResponse?.results || []);
-      setHorrorMovies(horrorResponse?.results || []);
-      setAnimationMovies(animationResponse?.results || []);
+    const loadNowWatching = async () => {
+      const nowWatchingData = await fetchPopularMovies(1, 5); // İlk 5 popüler filmi al
+      setNowWatchingMovies(nowWatchingData.results);
     };
 
     loadMovies();
     loadGenres();
-    loadGenreMovies();
+    loadNowWatching();
   }, [location.search, currentPage, filters]);
 
   const handlePageChange = (pageNumber) => {
@@ -113,7 +105,7 @@ const Catalog = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-2 lg:gap-2">
           {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} genres={genres} /> 
+            <MovieCard key={movie.id} movie={movie} genres={genres} />
           ))}
         </div>
         <div className="mt-12">
@@ -125,14 +117,12 @@ const Catalog = () => {
           />
         </div>
       </div>
-
-      {/* Now Watching Section with Slider */}
       <div className="container mx-auto px-side-padding py-8">
         <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">
           Now Watching
         </h2>
         <Slider {...sliderSettings}>
-          {movies.slice(0, 5).map((movie) => (
+          {nowWatchingMovies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} genres={genres} />
           ))}
         </Slider>
