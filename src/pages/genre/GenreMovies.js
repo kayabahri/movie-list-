@@ -1,43 +1,87 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchFilteredMovies } from '../../services/movieService';
-import Skeleton from '../../components/Skeleton';
-import ReactLoadingSkeleton from 'react-loading-skeleton';
+import MovieCard from '../../components/MovieCard';
+import Pagination from '../../components/Pagination';
+import { fetchFilteredMovies, fetchGenres } from '../../services/movieService';
+import ReusableHeader from '../../components/ReusableHeader';
+import cinemaImage from '../../assets/cinema.jpg';
 
 const GenreMovies = () => {
   const { genreId } = useParams();
   const [movies, setMovies] = useState([]);
+  const [genres, setGenres] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalMovies, setTotalMovies] = useState(0);
 
   useEffect(() => {
     const getMovies = async () => {
-      const data = await fetchFilteredMovies({ with_genres: genreId });
-      setMovies(data.results);
+      setIsLoading(true);
+      const movieData = await fetchFilteredMovies({ with_genres: genreId }, currentPage);
+      setMovies(movieData.results);
+      setTotalMovies(movieData.total_results);
       setIsLoading(false);
     };
 
+    const getGenres = async () => {
+      const genreData = await fetchGenres();
+      const genresMap = genreData.reduce((acc, genre) => {
+        acc[genre.id] = genre.name;
+        return acc;
+      }, {});
+      setGenres(genresMap);
+    };
+
     getMovies();
-  }, [genreId]);
+    getGenres();
+  }, [genreId, currentPage]);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const moviesPerPage = 24;
+  const placeholders = [...Array(moviesPerPage - movies.length).keys()];
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Movies in this Genre</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {isLoading ? (
-          [...Array(8)].map((_, index) => (
-            <div key={index} className="block bg-white rounded-lg shadow-lg overflow-hidden">
-              <ReactLoadingSkeleton height={288} />
-              <div className="p-4">
-                <ReactLoadingSkeleton width="70%" height={20} />
-                <ReactLoadingSkeleton width="50%" height={20} />
+    <div className="bg-gray-900 text-white font-ubuntu max-w-custom-max mx-auto">
+      <ReusableHeader
+        title="Movies by Genre"
+        breadcrumb="Genre Movies"
+        backgroundImage={cinemaImage}
+      />
+
+      <div className="container mx-auto px-side-padding py-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {isLoading ? (
+            [...Array(moviesPerPage)].map((_, index) => (
+              <div key={index} className="block bg-white rounded-lg shadow-lg overflow-hidden">
+                <div className="h-[332px] bg-gray-700 animate-pulse"></div>
+                <div className="p-4">
+                  <div className="h-4 bg-gray-700 rounded w-3/4 animate-pulse mb-2"></div>
+                  <div className="h-4 bg-gray-700 rounded w-1/2 animate-pulse"></div>
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          movies.map((movie) => (
-            <Skeleton key={movie.id} movie={movie} />
-          ))
-        )}
+            ))
+          ) : (
+            <>
+              {movies.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} genres={genres} />
+              ))}
+              {placeholders.map((placeholder) => (
+                <div key={placeholder} className="block bg-transparent rounded-lg"></div>
+              ))}
+            </>
+          )}
+        </div>
+        <div className="mt-12">
+          <Pagination
+            moviesPerPage={moviesPerPage}
+            totalMovies={totalMovies}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        </div>
       </div>
     </div>
   );

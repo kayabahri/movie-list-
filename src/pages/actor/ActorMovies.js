@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import MovieCard from '../../components/MovieCard';
 import Pagination from '../../components/Pagination';
-import { fetchFilteredMovies } from '../../services/movieService';
+import { fetchFilteredMovies, fetchGenres } from '../../services/movieService';
 import ReusableHeader from '../../components/ReusableHeader';
 import cinemaImage from '../../assets/cinema.jpg';
 
 const ActorMovies = () => {
   const { actorId } = useParams();
   const [movies, setMovies] = useState([]);
+  const [genres, setGenres] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalMovies, setTotalMovies] = useState(0);
@@ -16,22 +17,31 @@ const ActorMovies = () => {
   useEffect(() => {
     const getMovies = async () => {
       setIsLoading(true);
-      const data = await fetchFilteredMovies({ with_cast: actorId }, currentPage);
-      setMovies(data.results);
-      setTotalMovies(data.total_results);
+      const movieData = await fetchFilteredMovies({ with_cast: actorId }, currentPage);
+      setMovies(movieData.results);
+      setTotalMovies(movieData.total_results);
       setIsLoading(false);
     };
 
+    const getGenres = async () => {
+      const genreData = await fetchGenres();
+      const genresMap = genreData.reduce((acc, genre) => {
+        acc[genre.id] = genre.name;
+        return acc;
+      }, {});
+      setGenres(genresMap);
+    };
+
     getMovies();
+    getGenres();
   }, [actorId, currentPage]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  // Boş grid hücreleri için placeholder eklemek için:
-  const moviesPerPage = 24; // 6x4 grid
-  const placeholders = [...Array(moviesPerPage - movies.length).keys()]; // Boş grid hücreleri için
+  const moviesPerPage = 24;
+  const placeholders = [...Array(moviesPerPage - movies.length).keys()];
 
   return (
     <div className="bg-gray-900 text-white font-ubuntu max-w-custom-max mx-auto">
@@ -56,10 +66,10 @@ const ActorMovies = () => {
           ) : (
             <>
               {movies.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
+                <MovieCard key={movie.id} movie={movie} genres={genres} />
               ))}
               {placeholders.map((placeholder) => (
-                <div key={placeholder} className="block bg-transparent rounded-lg"></div> // Boş yerleri dolduran grid hücreleri
+                <div key={placeholder} className="block bg-transparent rounded-lg"></div>
               ))}
             </>
           )}

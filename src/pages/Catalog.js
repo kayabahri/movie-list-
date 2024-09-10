@@ -5,7 +5,7 @@ import MovieCard from '../components/MovieCard';
 import Pagination from '../components/Pagination';
 import Filter from '../components/Filters';
 import ReusableHeader from '../components/ReusableHeader';
-import { fetchPopularMovies, searchMovies, fetchMoviesByGenre, fetchFilteredMovies } from '../services/movieService';
+import { fetchPopularMovies, searchMovies, fetchMoviesByGenre, fetchFilteredMovies, fetchGenres } from '../services/movieService';
 import cinemaImage from '../assets/cinema.jpg';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -15,6 +15,7 @@ const Catalog = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalMovies, setTotalMovies] = useState(0);
   const [filters, setFilters] = useState({});
+  const [genres, setGenres] = useState({});
   const location = useLocation();
 
   const [actionMovies, setActionMovies] = useState([]);
@@ -38,6 +39,15 @@ const Catalog = () => {
       setTotalMovies(data.total_results);
     };
 
+    const loadGenres = async () => {
+      const genreData = await fetchGenres();
+      const genresMap = genreData.reduce((acc, genre) => {
+        acc[genre.id] = genre.name;
+        return acc;
+      }, {});
+      setGenres(genresMap);
+    };
+
     const loadGenreMovies = async () => {
       const actionResponse = await fetchMoviesByGenre(28, 10); 
       const horrorResponse = await fetchMoviesByGenre(27, 10); 
@@ -49,6 +59,7 @@ const Catalog = () => {
     };
 
     loadMovies();
+    loadGenres();
     loadGenreMovies();
   }, [location.search, currentPage, filters]);
 
@@ -102,7 +113,7 @@ const Catalog = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-2 lg:gap-2">
           {movies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+            <MovieCard key={movie.id} movie={movie} genres={genres} /> 
           ))}
         </div>
         <div className="mt-12">
@@ -122,7 +133,7 @@ const Catalog = () => {
         </h2>
         <Slider {...sliderSettings}>
           {movies.slice(0, 5).map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
+            <MovieCard key={movie.id} movie={movie} genres={genres} />
           ))}
         </Slider>
       </div>
