@@ -1,6 +1,24 @@
 import React from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
-const Card = ({ title, features, price, buttonLabel }) => {
+const Card = ({ title, features, price, buttonLabel, isLoading }) => {
+  if (isLoading) {
+    return (
+      <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg relative text-left">
+        <Skeleton width="100%" height={30} />
+        <ul className="mt-4 space-y-2">
+          {[...Array(4)].map((_, index) => (
+            <li key={index}>
+              <Skeleton width="80%" height={20} />
+            </li>
+          ))}
+        </ul>
+        <Skeleton width="100%" height={50} className="mt-6" />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg relative text-left transition-transform duration-500 hover:scale-105 hover:shadow-xl hover:before:content-[''] hover:before:absolute hover:before:top-0 hover:before:left-0 hover:before:right-0 hover:before:h-1 hover:before:bg-gradient-pink hover:before:transition-all duration-500">
       <div className="absolute top-4 right-4 text-pink-500 text-2xl font-medium">

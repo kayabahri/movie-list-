@@ -1,13 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const baseURL = 'https://image.tmdb.org/t/p/w500';
 
-const MovieCard = ({ movie, genres = {} }) => {
+const MovieCard = ({ movie, genres = {}, isLoading }) => {
   const getPrimaryGenre = (genreIds) => {
     if (!genreIds || genreIds.length === 0) return "Unknown";
     return genres[genreIds[0]] || "Unknown";
   };
+
+  if (isLoading) {
+    return (
+      <div className="p-2">
+        <div className="relative rounded-lg overflow-hidden">
+          <Skeleton height={332} width="100%" />
+          <div className="p-4">
+            <Skeleton width="70%" height={20} />
+            <Skeleton width="50%" height={20} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-2">
