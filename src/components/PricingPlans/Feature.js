@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Feature = ({ icon, title, description }) => {
-  const IconComponent = icon;  // İkon bileşeni dinamik olarak belirlenir
+  const IconComponent = icon;  // İkon bileşeni dinamik olarak belirler
   return (
     <div className="flex items-start space-x-4">
       <div className="flex-shrink-0">

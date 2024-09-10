@@ -57,7 +57,7 @@ const MovieDetails = () => {
           </div>
         </div>
 
-        {/* Sağ kısım - Film Detayları */}
+        {/* Sağ kısım Film Detayları */}
         <div className="md:w-2/3 text-white px-4">
           <h1 className="text-3xl font-bold mb-4 font-ubuntu text-left">{movie.title}</h1>
 
@@ -120,7 +120,7 @@ const MovieDetails = () => {
       </div>
 
       {/* Alt Gradient Çizgisi */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-pink"></div>
+      <div className="absolute bottom-0 left-0 right-0 border-t border-pink-500"></div>
     </div>
   );
 };

@@ -20,7 +20,7 @@ const ReusableHeader = ({ title, breadcrumb, backgroundImage }) => {
           <span className="text-gray-400">{breadcrumb}</span>
         </nav>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-pink"></div>
+      <div className="absolute bottom-0 left-0 right-0 border-t border-pink-500"></div>
     </div>
   );
 };

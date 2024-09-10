@@ -112,21 +112,22 @@ const Home = () => {
         }}
       >
         <div className="container mx-auto px-side-padding py-5">
-        <h1 className="text-left text-4xl font-ubuntu text-white mb-0">
-  <span className="font-bold">NEW ITEMS</span> 
-  <span className="font-light"> OF THIS SEASON</span>
-</h1>
-
-
+          <h1 className="text-left text-4xl font-ubuntu text-white mb-0">
+            <span className="font-bold">NEW ITEMS</span> 
+            <span className="font-light"> OF THIS SEASON</span>
+          </h1>
         </div>
+
         <div className="container mx-auto px-side-padding py-4">
-  <Slider {...settings}>
-    {movies.map((movie, index) => (
-      <MovieCard key={movie.id} movie={movie} genres={genres} />
-    ))}
-  </Slider>
-</div>
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-pink"></div>
+          <Slider {...settings}>
+            {movies.map((movie, index) => (
+              <MovieCard key={movie.id} movie={movie} genres={genres} />
+            ))}
+          </Slider>
+        </div>
+
+        {/* Çizgiyi Tailwind border kullanarak ekliyoruz */}
+        <div className="absolute bottom-0 left-0 right-0 border-t border-pink-500"></div>
       </div>
 
       {/* Recently Updated Bölümü */}
@@ -150,7 +151,7 @@ const Home = () => {
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M14.752 11.168l-4.88-2.81A1 1 0 008 9.117v5.766a 1 1 0 001.872.615l4.88-2.81a 1 1 0 000-1.72z"
+                        d="M14.752 11.168l-4.88-2.81A1 1 0 008 9.117v5.766a1 1 0 001.872.615l4.88-2.81a 1 1 0 000-1.72z"
                       />
                     </svg>
                   </div>
@@ -172,7 +173,7 @@ const Home = () => {
           ))}
         </div>
 
-        {/* TO CATALOG Button */}
+        {/* CATALOG Button */}
         <div className="flex justify-center mt-8">
           <button 
             onClick={() => navigate('/catalog')}
