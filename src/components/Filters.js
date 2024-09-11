@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next'; // useTranslation hook'u eklendi
 import { fetchLanguages, fetchGenres } from '../services/movieService';
 
 const Filters = ({ onFilterChange }) => {
+  const { t } = useTranslation(); // useTranslation kullanılıyor
   const [filters, setFilters] = useState({
     with_genres: '',
     vote_average_gte: '',
@@ -46,9 +48,9 @@ const Filters = ({ onFilterChange }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
       <div>
-        <label className="block text-white font-bold mb-1">Genres:</label>
+        <label className="block text-white font-bold mb-1">{t('Genres')}:</label>
         <select name="with_genres" value={filters.with_genres} onChange={handleChange} className="w-full p-2 border border-gray-700 bg-gray-800 rounded-lg text-white">
-          <option value="">All genres</option>
+          <option value="">{t('All genres')}</option>
           {genres.map((genre) => (
             <option key={genre.id} value={genre.id}>
               {genre.name}
@@ -58,14 +60,14 @@ const Filters = ({ onFilterChange }) => {
       </div>
 
       <div>
-        <label className="block text-white font-bold mb-1">IMDb Score (Minimum):</label>
+        <label className="block text-white font-bold mb-1">{t('IMDb Score (Minimum)')}:</label>
         <select
           name="vote_average_gte"
           value={filters.vote_average_gte}
           onChange={handleChange}
           className="w-full p-2 border border-gray-700 bg-gray-800 rounded-lg text-white"
         >
-          <option value="">Any rating</option>
+          <option value="">{t('Any rating')}</option>
           {ratingOptions.map((rating) => (
             <option key={rating} value={rating}>
               {rating}
@@ -75,14 +77,14 @@ const Filters = ({ onFilterChange }) => {
       </div>
 
       <div>
-        <label className="block text-white font-bold mb-1">Language:</label>
+        <label className="block text-white font-bold mb-1">{t('Language')}:</label>
         <select
           name="with_original_language"
           value={filters.with_original_language}
           onChange={handleChange}
           className="w-full p-2 border border-gray-700 bg-gray-800 rounded-lg text-white"
         >
-          <option value="">Any quality</option>
+          <option value="">{t('Any quality')}</option>
           {languages.map((lang) => (
             <option key={lang.iso_639_1} value={lang.iso_639_1}>
               {lang.english_name}
@@ -92,14 +94,14 @@ const Filters = ({ onFilterChange }) => {
       </div>
 
       <div>
-        <label className="block text-white font-bold mb-1">Year:</label>
+        <label className="block text-white font-bold mb-1">{t('Year')}:</label>
         <select
           name="primary_release_year"
           value={filters.primary_release_year}
           onChange={handleChange}
           className="w-full p-2 border border-gray-700 bg-gray-800 rounded-lg text-white"
         >
-          <option value="">Relevance</option>
+          <option value="">{t('Relevance')}</option>
           {yearOptions.map((year) => (
             <option key={year} value={year}>
               {year}
@@ -110,7 +112,7 @@ const Filters = ({ onFilterChange }) => {
 
       <div className="md:col-span-4 text-right">
         <button onClick={handleApply} className="bg-pink-600 text-white px-6 py-2 rounded-lg transition-all duration-500 hover:brightness-125 hover:shadow-lg">
-          APPLY
+          {t('APPLY')}
         </button>
       </div>
     </div>

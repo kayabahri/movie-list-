@@ -5,8 +5,10 @@ import MovieCard from '../components/MovieCard';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { fetchPopularMovies } from '../services/movieService';
+import { useTranslation } from 'react-i18next';
 
 const MovieList = ({ movies: propMovies }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const movies = useSelector((state) => state.movies.movies);
   const movieStatus = useSelector((state) => state.movies.status);
@@ -47,11 +49,11 @@ const MovieList = ({ movies: propMovies }) => {
   }
 
   if (movieStatus === 'failed' && !propMovies) {
-    return <div className="text-center text-red-500">Error loading movies.</div>;
+    return <div className="text-center text-red-500">{t('Error loading movies.')}</div>;
   }
 
   if (!displayedMovies || displayedMovies.length === 0) {
-    return <div className="text-center">No movies found.</div>;
+    return <div className="text-center">{t('No movies found.')}</div>;
   }
 
   return (

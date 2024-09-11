@@ -9,14 +9,16 @@ import { fetchPopularMovies, searchMovies, fetchMoviesByGenre, fetchFilteredMovi
 import cinemaImage from '../assets/cinema.jpg';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import { useTranslation } from 'react-i18next';
 
 const Catalog = () => {
+  const { t } = useTranslation();
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalMovies, setTotalMovies] = useState(0);
   const [filters, setFilters] = useState({});
   const [genres, setGenres] = useState({});
-  const [nowWatchingMovies, setNowWatchingMovies] = useState([]); // Now Watching için ayrı state
+  const [nowWatchingMovies, setNowWatchingMovies] = useState([]);
   const location = useLocation();
 
   useEffect(() => {
@@ -95,8 +97,8 @@ const Catalog = () => {
   return (
     <div className="bg-gray-900 text-white font-ubuntu max-w-custom-max mx-auto">
       <ReusableHeader
-        title="Catalog"
-        breadcrumb="Catalog"
+        title={t('Catalog')}
+        breadcrumb={t('Catalog')}
         backgroundImage={cinemaImage}
       />
       <div className="container mx-auto px-side-padding py-16">
@@ -119,7 +121,7 @@ const Catalog = () => {
       </div>
       <div className="container mx-auto px-side-padding py-8">
         <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">
-          Now Watching
+          {t('Now Watching')}
         </h2>
         <Slider {...sliderSettings}>
           {nowWatchingMovies.map((movie) => (

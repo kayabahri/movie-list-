@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
 
 const SearchBar = () => {
+  const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
 
@@ -19,7 +21,7 @@ const SearchBar = () => {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search"
+        placeholder={t('Search')}
         className="bg-gray-800 text-white py-2 px-4 pl-10 rounded-full focus:outline-none"
       />
       <button type="submit" className="absolute left-3">

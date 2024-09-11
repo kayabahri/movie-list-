@@ -1,6 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Pagination = ({ moviesPerPage, totalMovies, onPageChange, currentPage }) => {
+  const { t } = useTranslation();
   const pageNumbers = [];
   const totalPages = Math.ceil(totalMovies / moviesPerPage);
 
@@ -35,7 +37,7 @@ const Pagination = ({ moviesPerPage, totalMovies, onPageChange, currentPage }) =
               onClick={() => onPageChange(currentPage - 1)}
               className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-pink-500 transition-colors duration-300"
             >
-              &laquo; Prev
+              &laquo; {t('Prev')}
             </button>
           </li>
         )}
@@ -57,7 +59,7 @@ const Pagination = ({ moviesPerPage, totalMovies, onPageChange, currentPage }) =
               onClick={() => onPageChange(currentPage + 1)}
               className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-pink-500 transition-colors duration-300"
             >
-              Next &raquo;
+              {t('Next')} &raquo;
             </button>
           </li>
         )}

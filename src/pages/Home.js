@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Card from '../components/PricingPlans/Card';
 import MovieCard from '../components/MovieCard'; 
 import RecommendedMovies from '../components/RecommendedMovies'; 
+import { useTranslation } from 'react-i18next'; // i18n hook'u ekliyoruz
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import filmback from '../assets/filmback.jpg';
@@ -12,6 +13,7 @@ import filmback from '../assets/filmback.jpg';
 const baseURL = 'https://image.tmdb.org/t/p/w500';
 
 const Home = () => {
+  const { t } = useTranslation(); // t fonksiyonunu kullanıyoruz
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState({});
   const [recentMovies, setRecentMovies] = useState([]);
@@ -21,22 +23,40 @@ const Home = () => {
 
   const plans = [
     {
-      title: 'Starter',
-      features: ['7 days', '720p Resolution', 'Limited Availability', 'Desktop Only', 'Limited Support'],
-      price: 'Free',
-      buttonLabel: 'REGISTER',
+      title: t('Starter'), // Çeviri için t fonksiyonunu kullanıyoruz
+      features: [
+        t('7 days'),
+        t('720p Resolution'),
+        t('Limited Availability'),
+        t('Desktop Only'),
+        t('Limited Support')
+      ],
+      price: t('Free'),
+      buttonLabel: t('REGISTER'),
     },
     {
-      title: 'Premium',
-      features: ['1 Month', 'Full HD', 'Lifetime Availability', 'TV & Desktop', '24/7 Support'],
+      title: t('Premium'),
+      features: [
+        t('1 Month'),
+        t('Full HD'),
+        t('Lifetime Availability'),
+        t('TV & Desktop'),
+        t('24/7 Support')
+      ],
       price: '$19.99',
-      buttonLabel: 'CHOOSE PLAN',
+      buttonLabel: t('CHOOSE PLAN'),
     },
     {
-      title: 'Cinematic',
-      features: ['2 Months', 'Ultra HD', 'Lifetime Availability', 'Any Device', '24/7 Support'],
+      title: t('Cinematic'),
+      features: [
+        t('2 Months'),
+        t('Ultra HD'),
+        t('Lifetime Availability'),
+        t('Any Device'),
+        t('24/7 Support')
+      ],
       price: '$39.99',
-      buttonLabel: 'CHOOSE PLAN',
+      buttonLabel: t('CHOOSE PLAN'),
     },
   ];
 
@@ -113,8 +133,8 @@ const Home = () => {
       >
         <div className="container mx-auto px-side-padding py-5">
           <h1 className="text-left text-4xl font-ubuntu text-white mb-0">
-            <span className="font-bold">NEW ITEMS</span> 
-            <span className="font-light"> OF THIS SEASON</span>
+            <span className="font-bold">{t('NEW ITEMS')}</span> 
+            <span className="font-light"> {t('OF THIS SEASON')}</span>
           </h1>
         </div>
 
@@ -132,7 +152,7 @@ const Home = () => {
 
       {/* Recently Updated Bölümü */}
       <div className="container mx-auto px-side-padding py-8 relative z-10">
-        <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">Recently Updated</h2>
+        <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">{t('Recently Updated')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
           {recentMovies.map((movie, index) => (
             <div key={index} className="bg-transparent p-4 rounded-lg shadow-lg text-left flex group items-start">
@@ -151,7 +171,7 @@ const Home = () => {
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M14.752 11.168l-4.88-2.81A1 1 0 008 9.117v5.766a1 1 0 001.872.615l4.88-2.81a 1 1 0 000-1.72z"
+                        d="M14.752 11.168l-4.88-2.81A1 1 0 008 9.117v5.766a 1 1 0 001.872.615l4.88-2.81a 1 1 0 000-1.72z"
                       />
                     </svg>
                   </div>
@@ -159,7 +179,7 @@ const Home = () => {
                 <div className="flex flex-col justify-between w-2/3 ml-4">
                   <div>
                     <h3 className="text-white text-base md:text-lg font-ubuntu font-medium mb-1">{movie.title}</h3>
-                    <p className="text-pink-500 text-sm md:text-base mb-2">{genres[movie.genre_ids[0]] || 'Unknown'}</p>
+                    <p className="text-pink-500 text-sm md:text-base mb-2">{genres[movie.genre_ids[0]] || t('Unknown')}</p>
                     <div className="flex items-center mb-2">
                       <span className="text-white text-sm md:text-base font-ubuntu align-middle mr-2">{movie.vote_average.toFixed(2)}</span>
                       <span className="text-gray-400 text-xs md:text-sm font-ubuntu align-middle border px-1 rounded">HD</span>
@@ -179,7 +199,7 @@ const Home = () => {
             onClick={() => navigate('/catalog')}
             className="bg-pink-600 text-white px-6 py-3 rounded-lg transition-all duration-500 hover:brightness-125 hover:shadow-hover-glow"
           >
-            TO CATALOG
+            {t('TO CATALOG')}
           </button>
         </div>
       </div>
@@ -189,11 +209,11 @@ const Home = () => {
         horrorMovies={horrorMovies} 
         animationMovies={animationMovies} 
         genres={genres} 
-        title="Recommended For You" 
+        title={t('Recommended For You')} 
       />
 
       <div className="container mx-auto px-side-padding py-12 relative z-10">
-        <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">Select Your Plan</h2>
+        <h2 className="text-white font-ubuntu text-3xl md:text-4xl lg:text-custom-title mb-8 text-left">{t('Select Your Plan')}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
           {plans.map((plan, index) => (
             <Card 

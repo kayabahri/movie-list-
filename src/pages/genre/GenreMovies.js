@@ -5,9 +5,11 @@ import Pagination from '../../components/Pagination';
 import { fetchFilteredMovies, fetchGenres } from '../../services/movieService';
 import ReusableHeader from '../../components/ReusableHeader';
 import cinemaImage from '../../assets/cinema.jpg';
+import { useTranslation } from 'react-i18next';
 
 const GenreMovies = () => {
   const { genreId } = useParams();
+  const { t } = useTranslation();
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -46,8 +48,8 @@ const GenreMovies = () => {
   return (
     <div className="bg-gray-900 text-white font-ubuntu max-w-custom-max mx-auto">
       <ReusableHeader
-        title="Movies by Genre"
-        breadcrumb="Genre Movies"
+        title={t('Movies by Genre')}
+        breadcrumb={t('Genre Movies')}
         backgroundImage={cinemaImage}
       />
 
