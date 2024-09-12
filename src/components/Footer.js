@@ -6,11 +6,11 @@ const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-gray-900 text-white py-8">
+    <footer className="bg-gray-900 text-white">
       {/* Üstteki Çizgi */}
-      <div className="w-full border-t border-pink-500 mb-8"></div>
+      <div className="w-full border-t border-pink-500"></div> {/* Bu çizginin tam üstte yer almasını sağlıyoruz */}
       
-      <div className="container mx-auto px-side-padding grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="container mx-auto px-side-padding grid grid-cols-1 md:grid-cols-4 gap-8 mt-8 py-8">
         <div className="text-left">
           <h2 className="text-2xl font-bold text-white">
             <span className="text-white">FLIX</span><span className="text-pink-500">GO</span>

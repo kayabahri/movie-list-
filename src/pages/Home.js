@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Card from '../components/PricingPlans/Card';
 import MovieCard from '../components/MovieCard'; 
 import RecommendedMovies from '../components/RecommendedMovies'; 
-import { useTranslation } from 'react-i18next'; // i18n hook'u ekliyoruz
+import { useTranslation } from 'react-i18next';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import filmback from '../assets/filmback.jpg';
@@ -13,7 +13,7 @@ import filmback from '../assets/filmback.jpg';
 const baseURL = 'https://image.tmdb.org/t/p/w500';
 
 const Home = () => {
-  const { t } = useTranslation(); // t fonksiyonunu kullanıyoruz
+  const { t } = useTranslation();
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState({});
   const [recentMovies, setRecentMovies] = useState([]);
@@ -23,7 +23,7 @@ const Home = () => {
 
   const plans = [
     {
-      title: t('Starter'), // Çeviri için t fonksiyonunu kullanıyoruz
+      title: t('Starter'),
       features: [
         t('7 days'),
         t('720p Resolution'),
@@ -146,7 +146,6 @@ const Home = () => {
           </Slider>
         </div>
 
-        {/* Çizgiyi Tailwind border kullanarak ekliyoruz */}
         <div className="absolute bottom-0 left-0 right-0 border-t border-pink-500"></div>
       </div>
 
