@@ -1,23 +1,32 @@
 import React, { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 import AuthForm from '../components/AuthForm';
-import { Link } from 'react-router-dom';
-import signinBackground from '../assets/singin.jpg';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate(); 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Giriş işlemi burada yapılacak
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log('Giriş başarılı!');
+      navigate('/');
+    } catch (err) {
+      setError('Giriş başarısız: ' + err.message);
+    }
   };
 
   return (
     <div
-      className="min-h-screen flex flex-col justify-center items-center text-white font-ubuntu bg-cover bg-center"
+      className="min-h-screen flex justify-center items-center bg-cover bg-center"
       style={{
-        backgroundImage: `url(${signinBackground})`,
+        backgroundImage: `url(/path/to/your/background-image.jpg)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         boxShadow: 'inset 0 0 0 2000px rgba(0, 0, 0, 0.8)',
@@ -61,6 +70,8 @@ const SignIn = () => {
             </label>
             <Link to="/forgot-password" className="text-pink-500">Forgot password?</Link>
           </div>
+
+          {error && <p className="text-red-500">{error}</p>}
 
           <button
             type="submit"

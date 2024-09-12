@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 import AuthForm from '../components/AuthForm';
 import signinBackground from '../assets/singin.jpg';
 
@@ -33,7 +35,7 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!passwordMatch) {
       alert('Passwords do not match.');
@@ -43,8 +45,16 @@ const SignUp = () => {
       alert('You must accept the terms and conditions.');
       return;
     }
-    console.log('Sign Up Data:', formData);
-    navigate('/');
+
+    try {
+      // Firebase'de kullanıcı oluşturma
+      await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      console.log('User created successfully');
+      navigate('/'); // Kayıt başarılı olursa ana sayfaya yönlendiriyoe
+    } catch (error) {
+      console.error('Error creating user:', error);
+      alert('Error signing up. Please try again.');
+    }
   };
 
   return (
@@ -54,7 +64,7 @@ const SignUp = () => {
         backgroundImage: `url(${signinBackground})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        boxShadow: 'inset 0 0 0 2000px rgba(0, 0, 0, 0.8)', // Karartma efekti
+        boxShadow: 'inset 0 0 0 2000px rgba(0, 0, 0, 0.8)',
       }}
     >
       <AuthForm>
