@@ -12,13 +12,13 @@ const Dropdown = ({ items, isOpen }) => {
       <div className="py-4 px-6">
         <div className="flex flex-col space-y-2">
           {items.map((item, index) => (
-            <a
+            <button
               key={index}
-              href={item.href}
-              className="text-white hover:text-pink-500 transition-colors duration-300 whitespace-nowrap overflow-hidden"
+              onClick={item.onClick}
+              className="text-white hover:text-pink-500 transition-colors duration-300 text-left"
             >
               {item.label}
-            </a>
+            </button>
           ))}
         </div>
       </div>
