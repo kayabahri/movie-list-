@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from '../firebase';
-import { db } from '../firebase';
+import { auth } from '../firebase'; // Firebase authentication import
+import { db } from '../firebase'; // Firebase Firestore import
 import { collection, addDoc, onSnapshot, updateDoc, doc } from 'firebase/firestore';
-import { Link } from 'react-router-dom';
-import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+import { Link } from 'react-router-dom'; // Link import
+import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa'; // Beğeni ikonları için react-icons kullanıyoruz
 
 const Comments = ({ movieId }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [user, setUser] = useState(null);
 
+  // Kullanıcı durumu için auth kontrolü
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       setUser(authUser);
     });
 
+    // Yorumları Firestore'dan çekme ve güncelleme
     const unsubscribeComments = onSnapshot(
       collection(db, 'movies', movieId, 'comments'),
       (snapshot) => {
@@ -23,8 +25,8 @@ const Comments = ({ movieId }) => {
           return {
             id: doc.id,
             ...data,
-            likes: Array.isArray(data.likes) ? data.likes : [],
-            dislikes: Array.isArray(data.dislikes) ? data.dislikes : [],
+            likes: Array.isArray(data.likes) ? data.likes : [], // likes alanı bir dizi mi kontrol et
+            dislikes: Array.isArray(data.dislikes) ? data.dislikes : [], // dislikes alanı bir dizi mi kontrol et
           };
         });
         setComments(commentsData);
@@ -37,6 +39,7 @@ const Comments = ({ movieId }) => {
     };
   }, [movieId]);
 
+  // Yorum gönderme işlevi
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (newComment.trim() === '') return;
@@ -44,7 +47,7 @@ const Comments = ({ movieId }) => {
     try {
       await addDoc(collection(db, 'movies', movieId, 'comments'), {
         text: newComment,
-        user: user?.displayName || 'Anonim',
+        user: user?.displayName || 'Anonim', // Kullanıcı adı yoksa 'Anonim' gösterilecek
         createdAt: new Date(),
         likes: [],
         dislikes: [],
@@ -55,6 +58,7 @@ const Comments = ({ movieId }) => {
     }
   };
 
+  // Beğeni işlevi
   const handleLike = async (commentId, currentLikes, currentDislikes) => {
     const commentRef = doc(db, 'movies', movieId, 'comments', commentId);
     const hasLiked = currentLikes.includes(user.uid);
@@ -62,20 +66,20 @@ const Comments = ({ movieId }) => {
 
     try {
       if (hasLiked) {
- 
+        // Eğer kullanıcı zaten beğenmişse beğeniyi kaldır
         await updateDoc(commentRef, {
           likes: currentLikes.filter((uid) => uid !== user.uid),
         });
       } else {
-
+        // Kullanıcı beğenmemişse beğeni ekle
         const updatedLikes = [...currentLikes, user.uid];
         const updatedDislikes = hasDisliked
-          ? currentDislikes.filter((uid) => uid !== user.uid)
+          ? currentDislikes.filter((uid) => uid !== user.uid) // Eğer dislike atmışsa dislike'ı kaldır
           : currentDislikes;
 
         await updateDoc(commentRef, {
           likes: updatedLikes,
-          dislikes: updatedDislikes,
+          dislikes: updatedDislikes, // Eğer dislike atmışsa kaldır
         });
       }
     } catch (error) {
@@ -91,18 +95,20 @@ const Comments = ({ movieId }) => {
 
     try {
       if (hasDisliked) {
+        // Eğer kullanıcı zaten dislike atmışsa dislike'ı kaldır
         await updateDoc(commentRef, {
           dislikes: currentDislikes.filter((uid) => uid !== user.uid),
         });
       } else {
+        // Kullanıcı dislike atmamışsa dislike ekle
         const updatedDislikes = [...currentDislikes, user.uid];
         const updatedLikes = hasLiked
-          ? currentLikes.filter((uid) => uid !== user.uid)
+          ? currentLikes.filter((uid) => uid !== user.uid) // Eğer beğenmişse beğeniyi kaldır
           : currentLikes;
 
         await updateDoc(commentRef, {
           dislikes: updatedDislikes,
-          likes: updatedLikes,
+          likes: updatedLikes, // Eğer beğenmişse kaldır
         });
       }
     } catch (error) {
@@ -112,13 +118,15 @@ const Comments = ({ movieId }) => {
 
   return (
     <div className="flex w-full h-full max-w-screen-lg mx-auto">
+      {/* Sol taraf: Yorum yapma ve yorum listesi */}
       <div className="w-1/2 p-6">
-        <h2 className="text-2xl font-bold mb-4 text-white text-left">Comments</h2>
+        <h2 className="text-2xl font-bold mb-4 text-white text-left">Comments</h2> {/* Sola hizalı başlık */}
         
+        {/* Yorumlar Listesi */}
         {comments.length > 0 ? (
           <ul className="space-y-6">
             {comments.map((comment) => (
-              <li key={comment.id} className="bg-gray-800 p-6 rounded-md shadow-md text-left">
+              <li key={comment.id} className="bg-transparent p-6 rounded-md shadow-md text-left"> {/* Şeffaf arka plan */}
                 <div className="flex items-center mb-2">
                   <span className="text-pink-500 font-bold mr-2">{comment.user}</span>
                   <span className="text-gray-400 text-sm">
@@ -127,6 +135,7 @@ const Comments = ({ movieId }) => {
                 </div>
                 <p className="text-gray-300">{comment.text}</p>
 
+                {/* Beğen/Beğenmeme Butonları */}
                 <div className="mt-2 flex space-x-4">
                   <button
                     onClick={() => handleLike(comment.id, comment.likes, comment.dislikes)}
@@ -152,8 +161,9 @@ const Comments = ({ movieId }) => {
           <p className="text-white text-left">No comments yet.</p>
         )}
 
+        {/* Kullanıcı giriş yapmışsa yorum formunu göster */}
         {user ? (
-          <form onSubmit={handleCommentSubmit} className="mt-6 space-y-4 text-left"> 
+          <form onSubmit={handleCommentSubmit} className="mt-6 space-y-4 text-left"> {/* Sola hizalı form */}
             <textarea
               className="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
               value={newComment}
@@ -176,9 +186,10 @@ const Comments = ({ movieId }) => {
         )}
       </div>
 
-
+      {/* Sağ taraf: Boş alan (başka bir içerik ekleyebilmen için) */}
       <div className="w-1/2 p-6">
-        <div className="bg-gray-900 h-full w-full rounded-lg shadow-md"></div>
+        {/* Buraya başka bir içerik ekleyebilirsin */}
+        <div className="h-full w-full rounded-lg shadow-md"></div>
       </div>
     </div>
   );
