@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchMovieDetails } from '../services/movieService';
+import Comments from '../components/Comments'; 
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -38,7 +39,7 @@ const MovieDetails = () => {
     backgroundRepeat: 'no-repeat',
     boxShadow: 'inset 0 0 0 2000px rgba(0, 0, 0, 0.7)',
     width: '100vw',
-    height: '100vh',
+    minHeight: '100vh',
     margin: '0',
     padding: '0',
   };
@@ -120,7 +121,12 @@ const MovieDetails = () => {
       </div>
 
       {/* Alt Gradient Çizgisi */}
-      <div className="absolute bottom-0 left-0 right-0 border-t border-pink-500"></div>
+      <div className="absolute left-0 right-0 border-t border-pink-500"></div>
+
+      {/* Yorumlar Bileşeni - Gradient çizgisinin altında */}
+      <div className="container mx-auto px-6 py-12 bg-gray-900 mt-20">
+        <Comments movieId={id} />
+      </div>
     </div>
   );
 };
