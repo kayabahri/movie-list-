@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchMovieDetails } from '../services/movieService';
 import Comments from '../components/Comments';
-import MovieCard from '../components/MovieCard'; // MovieCard bileşenini içe aktarıyoruz
+import MovieCard from '../components/MovieCard';
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -30,8 +30,6 @@ const MovieDetails = () => {
   }, [id]);
 
   useEffect(() => {
-    // Önerilen filmleri bir API çağrısı ile alın
-    // Burada örnek olarak sabit bir dizi kullanıyoruz, bunu API'den çekebilirsiniz.
     const mockRecommendedMovies = [
       { id: 1, title: "The Lost Key", genre_ids: [1], vote_average: 8.4, poster_path: '/path1.jpg' },
       { id: 2, title: "Red Sky at Night", genre_ids: [2], vote_average: 7.1, poster_path: '/path2.jpg' },
@@ -144,3 +142,4 @@ const MovieDetails = () => {
 };
 
 export default MovieDetails;
+ 
