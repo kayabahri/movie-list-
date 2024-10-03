@@ -167,7 +167,7 @@ const SignUp = () => {
             type="submit"
             className="w-full bg-gradient-pink text-white py-2 rounded-md shadow-custom-pink transition-all duration-500 hover:brightness-125 hover:shadow-lg"
           >
-            Sign Up
+            SING UP
           </button>
         </form>
 

@@ -41,7 +41,7 @@ const SignIn = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full p-3 rounded-md bg-gray-800 text-white border border-gray-500 focus:border-pink-500 focus:outline-none"
-              placeholder="Email adresinizi girin"
+              placeholder="Enter your email address"
               required
             />
           </div>
@@ -53,7 +53,7 @@ const SignIn = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-3 rounded-md bg-gray-800 text-white border border-gray-500 focus:border-pink-500 focus:outline-none"
-              placeholder="Şifrenizi girin"
+              placeholder="Enter your password"
               required
             />
           </div>
